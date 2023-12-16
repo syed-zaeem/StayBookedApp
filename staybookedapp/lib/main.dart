@@ -1,52 +1,106 @@
+import 'package:bookingapplication2/Screens/About_Us_Page.dart';
+import 'package:bookingapplication2/Screens/Add_Room_Admin.dart';
+import 'package:bookingapplication2/Screens/Cart_Page.dart';
+import 'package:bookingapplication2/Screens/Contact_Us_Page.dart';
+import 'package:bookingapplication2/Screens/Detailed_Home_Page.dart';
+import 'package:bookingapplication2/Screens/Detailed_Hotel_Page.dart';
+import 'package:bookingapplication2/Screens/Home_Page.dart';
+import 'package:bookingapplication2/Screens/Home_Page_Customer.dart';
+import 'package:bookingapplication2/Screens/LogIn.dart';
+import 'package:bookingapplication2/Screens/More_Page.dart';
+import 'package:bookingapplication2/Screens/My_Reviews_Page.dart';
+import 'package:bookingapplication2/Screens/Price_Display_Page.dart';
+import 'package:bookingapplication2/Screens/Room_List.dart';
+import 'package:bookingapplication2/Screens/SignUp.dart';
+import 'package:bookingapplication2/Screens/SignUp_Manager.dart';
+import 'package:bookingapplication2/Screens/Trips_Page_Customer.dart';
+import 'package:bookingapplication2/Screens/View_Feedbacks_Manager.dart';
+import 'package:bookingapplication2/Screens/View_Hotels_Page.dart';
+import 'package:bookingapplication2/Screens/View_Rooms_Customer.dart';
+import 'package:bookingapplication2/Screens/View_Homes_Page.dart';
+import 'package:bookingapplication2/Screens/View_Rooms_Home.dart';
+import 'package:bookingapplication2/util/EditHotelOrHome.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:bookingapplication2/responsive/desktop_body.dart';
+import 'package:bookingapplication2/responsive/table_body.dart';
+import 'responsive/mobile_body.dart';
+import 'responsive/responsive_layout.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyD6NT1ua0fv8rvsryjWi2Kyn3_roeOJznk",
+      appId: "1:996235874041:android:b2d3157ec76ef486985c28",
+      messagingSenderId: "996235874041",
+      projectId: "staybooked-7ef6a",
+      databaseURL: "https://staybooked-7ef6a-default-rtdb.firebaseio.com/",
+      storageBucket: "gs://staybooked-7ef6a.appspot.com",
+    ),
+  );
+  await FirebaseStorage.instance;
+  print("FIREBASE INITIALIZATION SUCCESSFULL");
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+          useMaterial3: true,
+        ),
+        // home: const AddRoomAdmin(),
+         home: LogIn(),
+        // home: RoomList(),
+        // home: ResponsiveLayout(
+        //   mobileBody: const MobileScaffold(),
+        //   tabletBody: const TabletScaffold(),
+        //   desktopBody: const DesktopScaffold(),
+        // ),
+        // home: EditHotelHome(),
+        // home: ViewHotelsPage(),
+        // home: DetailedHotelPage(),
+        // home: HomePageCustomer(),
+        // initialRoute: '/',
+        // home: ViewRooms(),
+        // home: ViewFeedbacksManager(),
+        routes: {
+          "/CustomerHomePage": (context) => const HomePageCustomer(),
+          "/Signup": (context) => const SignUp(),
+          "/SignupManager": (context) => const SignUpManager(),
+          "/Login": (context) => const LogIn(),
+          "/RoomsListManager": (context) => RoomList(),
+          "/AddRoomManager": (context) => const AddRoomAdmin(),
+          "/EditHotelOrHomeManager": (context) => const EditHotelHome(),
+          "/MyTrips": (context) => const MyTripPage(),
+          "/Cart": (context) => const CartPage(),
+          "/More": (context) => const MorePage(),
+          "/HelpCenter": (context) => const ContactUsPage(),
+          "/AboutUs": (context) => const AboutUsPgae(),
+          "/MyReviews": (context) => const MyReviewsPage(),
+          "/PriceDisplay": (context) => const PriceDisplayPage(),
+          "/ViewHotels": (context) => const ViewHotelsPage(),
+          "/ViewHomes": (context) => const ViewHomesPage(),
+          "/ViewHotelRooms": (context) => ViewRooms(),
+          "/ViewHomeRooms": (context) => ViewRoomsHome(),
+          "/ViewFeedbacksManager": (context) => ViewFeedbacksManager(),
+          "/DetailedOneHotel": (context) => const DetailedHotelPage(),
+          "/DetailedOneHome": (context) => const DetailedHomePage(),
+        });
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -59,50 +113,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
@@ -119,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
